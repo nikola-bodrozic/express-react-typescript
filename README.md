@@ -1,6 +1,6 @@
 # NodeJS & React TypeScript with proxy setup 
 
-start express server on localhost:3001/users
+start express server with API endpoints at localhost:3008/users and localhost:3008/users/:id 
 
 ```sh
 cd nodejs
