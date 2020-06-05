@@ -1,4 +1,4 @@
-# NodeJS proxy & React with TypeScript
+# NodeJS & React TypeScript with proxy setup 
 
 start express server on localhost:3001/users
 
