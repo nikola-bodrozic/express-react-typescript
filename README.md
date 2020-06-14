@@ -11,3 +11,14 @@ run
 ```sh
 docker-compose up 
 ```
+
+## Debug locally react app
+
+- install Debugger for Chrome on vs code
+- `yarn start`
+- set break points & run debugger
+
+## Debug locally NodeJS
+
+- set break points
+- run debugger
