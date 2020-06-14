@@ -1,18 +1,13 @@
-# NodeJS & React TypeScript with proxy setup 
+# Express server & React TypeScript app with proxy setup on Docker
 
-start express server with API endpoints at localhost:3008/users and localhost:3008/users/:id 
+## Start Docker
+
+to
+- start express server with API endpoints at <localhost:3008/users> and <localhost:3008/users/:id> 
+- start react app that connects to API
+
+run
 
 ```sh
-cd nodejs
-yarn # install deps.
-yarn start # run API
+docker-compose up 
 ```
-start react app with proxy defined in package.json
-
-```sh
-cd react
-yarn # install deps.
-yarn start
-```
-
-
