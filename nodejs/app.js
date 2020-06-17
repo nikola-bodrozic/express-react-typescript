@@ -4,7 +4,8 @@ const port = 3008;
 
 const users = [
    { id: 1, name: "ronald" },
-   { id: 2, name: "jacob" }
+   { id: 2, name: "jacob" },
+   { id: 3, name: "e"}
  ];
 
 app.get("/", (req, res) =>

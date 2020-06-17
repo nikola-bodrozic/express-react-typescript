@@ -35,10 +35,17 @@ class App extends Component<AppProps, AppState>{
     users: []
   }
 
+  validateName = (users: User[]) => {
+    const filtered: User[]  = users.filter(user => user.name.length > 1)
+    return filtered;
+  }
+
   getUsers = async () => {
     try {
+      // debugger;
       const response = await axios.get('/users');
-      const users = response.data
+      let users = response.data
+      users = this.validateName(users);
       this.setState({ users })
     } catch (error) {
       console.error(error);
