@@ -6,6 +6,7 @@ import {
   Switch
 } from "react-router-dom";
 
+import axios from 'axios';
 import About from "./About";
 import List from "./List";
 import Detail from './Detail'
@@ -34,10 +35,18 @@ class App extends Component<AppProps, AppState>{
     users: []
   }
 
+  getUsers = async () => {
+    try {
+      const response = await axios.get('/users');
+      const users = response.data
+      this.setState({ users })
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   componentDidMount() {
-    fetch('/users')
-      .then(res => res.json())
-      .then(users => this.setState({ users }));
+    this.getUsers();
   }
 
   render(): React.ReactNode {
@@ -66,3 +75,5 @@ class App extends Component<AppProps, AppState>{
 }
 
 export default App;
+
+
