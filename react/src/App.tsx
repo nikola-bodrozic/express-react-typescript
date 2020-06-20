@@ -6,10 +6,10 @@ import {
   Switch
 } from "react-router-dom";
 
-import axios from 'axios';
-import About from "./About";
-import List from "./List";
-import Detail from './Detail'
+import axios from "axios";
+import About from "./components/About";
+import List from "./components/List";
+import Detail from './components/Detail'
 
 interface AppProps {
   passStr: string;
@@ -36,7 +36,7 @@ class App extends Component<AppProps, AppState>{
   }
 
   validateName = (users: User[]) => {
-    const filtered: User[]  = users.filter(user => user.name.length > 1)
+    const filtered: User[] = users.filter(user => user.name.length > 1)
     return filtered;
   }
 
