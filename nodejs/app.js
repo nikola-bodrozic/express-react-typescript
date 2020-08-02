@@ -1,6 +1,32 @@
 const express = require("express");
 const app = express();
+const mysql = require('mysql');
+
 const port = 3008;
+
+const MY_SQL_HOST = "mysql"
+const MY_SQL_USER = "root"
+const MY_SQL_PASS = process.env.MYSQL_ROOT_PASSWORD
+const MY_SQL_DATABASE = "sampledb"
+
+var connection = mysql.createConnection({
+  host: MY_SQL_HOST,
+  user: MY_SQL_USER,
+  password: MY_SQL_PASS,
+  database: MY_SQL_DATABASE
+})
+
+connection.connect()
+
+var taskName = '';
+
+connection.query('SELECT title FROM tasks WHERE id = 1', function (err, rows, fields) {
+  if (err) throw err
+
+  taskName = rows[0].title;
+})
+
+connection.end()
 
 const users = [
    { id: 1, name: "ronald" },
@@ -11,6 +37,12 @@ const users = [
 app.get("/", (req, res) =>
   res.json(
     { "msg": "welcome to API" }
+  )
+);
+
+app.get("/task", (req, res) =>
+  res.json(
+    { "task": taskName }
   )
 );
 

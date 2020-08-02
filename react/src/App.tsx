@@ -11,14 +11,11 @@ import About from "./components/About";
 import List from "./components/List";
 import Detail from './components/Detail'
 
-interface AppProps {
-  passStr: string;
-  country: Country;
-  rivers: Array<string>
-}
+interface AppProps {}
 
 interface AppState {
   users: Array<User>;
+  task: string;
 }
 
 interface User {
@@ -26,13 +23,14 @@ interface User {
   name: string;
 }
 
-interface Country {
-  name: string;
+interface Task {
+  title: string;
 }
 
 class App extends Component<AppProps, AppState>{
   state: AppState = {
-    users: []
+    users: [],
+    task: ""
   }
 
   validateName = (users: User[]) => {
@@ -43,10 +41,13 @@ class App extends Component<AppProps, AppState>{
   getUsers = async () => {
     try {
       // debugger;
-      const response = await axios.get('/users');
+      let response = await axios.get('/users');
       let users = response.data
       users = this.validateName(users);
       this.setState({ users })
+      response = await axios.get('/task');
+      let task = response.data.task
+      this.setState({task})     
     } catch (error) {
       console.error(error);
     }
@@ -59,12 +60,11 @@ class App extends Component<AppProps, AppState>{
   render(): React.ReactNode {
     return (
       <div className="App">
-        <div>{this.props.rivers.map(river => <div key={river}>{river}</div>)}</div>
-        <hr />
-        <div>{this.props.country.name}</div>
+        <div>{this.state.task}</div>
         <hr />
         <div>{this.state.users.map(user => <div key={user.id}>{user.name}</div>)}</div>
-        <div className="App-border">
+        <hr />
+        <div>
           <Router>
             <Switch>
               <Route exact path="/" component={List} />

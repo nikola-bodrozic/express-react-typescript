@@ -6,12 +6,7 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App 
-    	passStr={'iAmString'} 
-    	rivers={['danube','morava']}
-    	country={{name:"USA"}}
-    />
-
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
