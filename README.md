@@ -1,20 +1,29 @@
-# Express server & React TypeScript app with proxy setup on Docker
+# Express server, React TypeScript & MySQL service 
 
-## Start Docker
-
-to
-- start express server with API endpoints at <localhost:3008/users> and <localhost:3008/users/:id> 
-- start react app that connects to API
-
-run
+## Run Docker stack
 
 ```sh
 docker-compose up 
 ```
 
+## mysql
+
+MySQL service is running on localhost:3306 and it's used by nodejs service to get a row from database. Database is pre populated with data from `./mysql/init.sql` script.
+
+## nodejs
+
+Starts express server with API endpoints at 
+- <http://localhost:3008/task> gets data from database
+- <http://localhost:3008/users> 
+- <http://localhost:3008/users/:id>
+
+## react
+
+is running on <http://localhost:3000> It calls nodejs service to get data from the API endpoints.
+
 ## Debug locally react app
 
-- install Debugger for Chrome on vs code
+- install `Debugger for Chrome` on vs code
 - `yarn start`
 - set break points & run debugger
 
