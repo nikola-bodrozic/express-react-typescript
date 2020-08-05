@@ -31,10 +31,12 @@ services:
       - '/app/node_modules'
     ports:
       - 3008:3008
+    expose:
+      - 3008
     depends_on:
-      - mysql
+      - dbmysql
 
-  mysql:
+  dbmysql:
     image: mysql:5.7
     container_name: mysql
     environment:

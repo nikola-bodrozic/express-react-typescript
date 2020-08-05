@@ -4,7 +4,7 @@ const mysql = require('mysql');
 
 const port = 3008;
 
-const MY_SQL_HOST = "mysql"
+const MY_SQL_HOST = "dbmysql"
 const MY_SQL_USER = "root"
 const MY_SQL_PASS = process.env.MYSQL_ROOT_PASSWORD
 const MY_SQL_DATABASE = "sampledb"
