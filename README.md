@@ -21,6 +21,10 @@ Starts express server with API endpoints at
 
 is running on <http://localhost:3000> It calls nodejs service to get data from the API endpoints.
 
+## Running in cloud machine with static IP
+
+in file react/src/App.tsx at line 47 place your IP.
+
 ## Debug locally react app
 
 - install `Debugger for Chrome` on vs code
