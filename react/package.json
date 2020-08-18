@@ -21,10 +21,7 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "start": "HOST=0.0.0.0 react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "react-scripts build"
   },
   "proxy": "http://nodejs:3008",
   "eslintConfig": {

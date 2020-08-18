@@ -33,6 +33,8 @@ class App extends Component<AppProps, AppState>{
     task: ""
   }
 
+  baseUrl = 'http://localhost:3008'
+
   validateName = (users: User[]) => {
     const filtered: User[] = users.filter(user => user.name.length > 1)
     return filtered;
@@ -41,11 +43,11 @@ class App extends Component<AppProps, AppState>{
   getUsers = async () => {
     try {
       // debugger;
-      let response = await axios.get('/users');
+      let response = await axios.get(this.baseUrl + '/users');
       let users = response.data
       users = this.validateName(users);
       this.setState({ users })
-      response = await axios.get('/task');
+      response = await axios.get(this.baseUrl + '/task');
       let task = response.data.task
       this.setState({task})     
     } catch (error) {
