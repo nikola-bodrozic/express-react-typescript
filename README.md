@@ -1,14 +1,14 @@
 # Debug Express server & React App
 
-## nodejs
+## Node.js
 
-Starts express server with API endpoints at 
+`npm start` starts express server with API endpoints at
 - <http://localhost:3008/users> 
 - <http://localhost:3008/users/:id>
 
-## react
+## React
 
-is running on <http://localhost:3000> It calls nodejs service to get data from the API endpoints.
+is running on <http://localhost:3000> It calls node Express end-point to get JSON.
 
 
 ## Debug React app
