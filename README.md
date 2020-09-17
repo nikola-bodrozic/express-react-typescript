@@ -1,19 +1,8 @@
-# Express server, React TypeScript & MySQL service 
-
-## Run Docker stack
-
-```sh
-docker-compose up 
-```
-
-## mysql
-
-MySQL service is running on localhost:3306 and it's used by nodejs service to get a row from database. Database is pre populated with data from `./mysql/init.sql` script.
+# Debug Express server & React App
 
 ## nodejs
 
 Starts express server with API endpoints at 
-- <http://localhost:3008/task> gets data from database
 - <http://localhost:3008/users> 
 - <http://localhost:3008/users/:id>
 
@@ -21,17 +10,16 @@ Starts express server with API endpoints at
 
 is running on <http://localhost:3000> It calls nodejs service to get data from the API endpoints.
 
-## Running in cloud machine with static IP
 
-in file react/src/App.tsx at line 47 place your IP.
+## Debug React app
 
-## Debug locally react app
-
-- install `Debugger for Chrome` on vs code
+- install extension "Debugger for Chrome" on VS Code
 - `yarn start`
-- set break points & run debugger
+- set break points
+- run debugger
 
-## Debug locally NodeJS
+## Debug NodeJS
 
 - set break points
 - run debugger
+- hit end-point with `curl localhost:3008/users/1`

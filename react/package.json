@@ -21,9 +21,10 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
+    "start": "react-scripts start",
     "build": "react-scripts build"
   },
-  "proxy": "http://nodejs:3008",
+  "proxy": "http://localhost:3008",
   "eslintConfig": {
     "extends": "react-app"
   },

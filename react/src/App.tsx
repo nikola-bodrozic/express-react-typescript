@@ -46,9 +46,6 @@ class App extends Component<AppProps, AppState>{
       let users = response.data
       users = this.validateName(users);
       this.setState({ users })
-      response = await axios.get(this.baseUrl + '/task');
-      let task = response.data.task
-      this.setState({task})     
     } catch (error) {
       console.error(error);
     }
@@ -61,8 +58,6 @@ class App extends Component<AppProps, AppState>{
   render(): React.ReactNode {
     return (
       <div className="App">
-        <div>{this.state.task}</div>
-        <hr />
         <div>{this.state.users.map(user => <div key={user.id}>{user.name}</div>)}</div>
         <hr />
         <div>
