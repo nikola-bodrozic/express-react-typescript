@@ -42,10 +42,6 @@ class App extends Component<AppProps, AppState>{
 
   getUsers = async () => {
     try {
-      // debugger;
-      if (process.env.NODE_ENV === "production") {
-        baseUrl = 'http://158.101.175.223:3008'
-      }
       let response = await axios.get(this.baseUrl + '/users');
       let users = response.data
       users = this.validateName(users);
