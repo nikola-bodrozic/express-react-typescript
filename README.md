@@ -2,13 +2,13 @@
 
 ## Node.js
 
-`npm start` starts express server with API endpoints at
+in nodejs folder `npm start` starts express server with API endpoints at
 - <http://localhost:3008/users> 
 - <http://localhost:3008/users/:id>
 
 ## React
 
-is running on <http://localhost:3000> It calls node Express end-point to get JSON.
+in react folder `npm start` starts React app on <http://localhost:3000> It calls node Express end-point to get JSON.
 
 
 ## Debug React app
