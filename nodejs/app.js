@@ -23,15 +23,15 @@ app.get("/users", (req, res) =>
 );
 
 app.get("/users/:id", (req, res) => {
-		const result = getUser(req.params.id)
-		res.json(result)
+    let id = parseInt(req.params.id)
+    if (id >= 0 && id <= 3) {
+      let index = id - 1
+      res.json(users[index])
+    }
+      
+    res.json({"msg": "user doesn't exist"})
 	}
 );
-
-getUser = (id) => {
-	if (id > 2) return {"msg": "user doesn't exist"}
-	return users[id-1];
-}
 
 app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`)
