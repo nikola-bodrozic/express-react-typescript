@@ -30,10 +30,10 @@ interface Task {
 class App extends Component<AppProps, AppState>{
   state: AppState = {
     users: [],
-    task: ""
+    task: "".
   }
   
-  baseUrl = 'http://' + REACT_APP_NODE_IP
+  baseUrl = 'http://' + process.env.REACT_APP_NODE_IP
 
   validateName = (users: User[]) => {
     const filtered: User[] = users.filter(user => user.name.length > 1)
