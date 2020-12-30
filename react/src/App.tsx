@@ -30,7 +30,7 @@ interface Task {
 class App extends Component<AppProps, AppState>{
   state: AppState = {
     users: [],
-    task: "".
+    task: ""
   }
   
   baseUrl = 'http://' + process.env.REACT_APP_NODE_IP
