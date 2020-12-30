@@ -33,7 +33,7 @@ class App extends Component<AppProps, AppState>{
     task: ""
   }
   
-  baseUrl = 'http://localhost:3008'
+  baseUrl = 'http://' + REACT_APP_NODE_IP
 
   validateName = (users: User[]) => {
     const filtered: User[] = users.filter(user => user.name.length > 1)

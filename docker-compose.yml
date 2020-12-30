@@ -20,7 +20,7 @@ services:
       context: nodejs/
       dockerfile: Dockerfile
     environment:
-      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
       - './nodejs:/app'
       - '/app/node_modules'
@@ -33,9 +33,9 @@ services:
 
   dbmysql:
     image: mysql:5.7
-    container_name: mysql
+    container_name: dbmysql
     environment:
-      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     ports:
       - 3306:3306
     expose:

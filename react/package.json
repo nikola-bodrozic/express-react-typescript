@@ -21,7 +21,10 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "build": "react-scripts build"
+    "start": "react-scripts start",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "build": "REACT_APP_NODE_IP=130.61.61.218 react-scripts build"
   },
   "proxy": "http://nodejs:3008",
   "eslintConfig": {
