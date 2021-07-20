@@ -16,6 +16,7 @@ interface AppProps {}
 interface AppState {
   users: Array<User>;
   task: string;
+  loader: boolean;
 }
 
 interface User {
@@ -27,10 +28,11 @@ interface Task {
   title: string;
 }
 
-class App extends Component<AppProps, AppState>{
+class App extends Component<AppProps, AppState> {
   state: AppState = {
     users: [],
-    task: ""
+    task: "",
+    loader: true
   }
   
   baseUrl = 'http://' + process.env.REACT_APP_NODE_IP
@@ -42,13 +44,19 @@ class App extends Component<AppProps, AppState>{
 
   getUsers = async () => {
     try {
-      let response = await axios.get(this.baseUrl + '/users');
-      let users = response.data
+      const response1 = await axios.get(this.baseUrl + '/task');
+      let task = response1.data.task
+      this.setState({
+        task: task
+      })
+      
+      const response2 = await axios.get(this.baseUrl + '/users');
+      let users = response2.data
       users = this.validateName(users);
-      this.setState({ users })
-      response = await axios.get(this.baseUrl + '/task');
-      let task = response.data.task
-      this.setState({task})     
+      this.setState({ 
+        users:users, 
+        loader: false 
+      })   
     } catch (error) {
       console.error(error);
     }
@@ -63,7 +71,7 @@ class App extends Component<AppProps, AppState>{
       <div className="App">
         <div>{this.state.task}</div>
         <hr />
-        <div>{this.state.users.map(user => <div key={user.id}>{user.name}</div>)}</div>
+        <div>{this.state.loader ? 'loading...' : this.state.users.map(user => <div key={user.id}>{user.name}</div>)}</div>
         <hr />
         <div>
           <Router>

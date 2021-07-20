@@ -8,7 +8,6 @@ ENV PATH /app/node_modules/.bin:$PATH
 
 # install app dependencies
 COPY package.json ./
-COPY yarn.lock ./
 RUN yarn install --network-timeout 1000000000
 
 # add app
