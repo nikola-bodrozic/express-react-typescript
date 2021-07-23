@@ -10,6 +10,7 @@ import axios from "axios";
 import About from "./components/About";
 import List from "./components/List";
 import Detail from './components/Detail'
+import ApiCalls from './components/ApiCalls'
 
 interface AppProps {}
 
@@ -85,6 +86,8 @@ class App extends Component<AppProps, AppState> {
             </Switch>
           </Router>
         </div>
+        <hr />
+        <ApiCalls />
       </div>
     );
   }
