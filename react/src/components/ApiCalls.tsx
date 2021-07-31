@@ -4,7 +4,7 @@ import axios from 'axios';
 import * as rax from 'retry-axios';
 
 const restInstanceObject = {
-  baseURL: "https://jsonplaceholder.typicode.com",
+  baseURL: "http://127.0.0.1:3008",
   headers: { 'Content-Type': 'application/json' }
 };
 
@@ -23,6 +23,7 @@ restInstance.defaults.raxConfig = {
   statusCodesToRetry: [[300, 399], [400, 499], [500, 599]],
   retryDelay:         200,
   instance:           restInstance,
+  backoffType:        'static',
   onRetryAttempt:     (raxCfg: any, params: any[] = []) => {          // handler for retry attempt (the handler is called when the retry is happening)
     let paramsStr = params.join(', ');
     if (paramsStr !== '') { paramsStr = ', (' + paramsStr + ')' }
@@ -32,13 +33,13 @@ restInstance.defaults.raxConfig = {
     } else {
       console.log(`Retry attempt${paramsStr}`);
     }
-  } 
+  }
 };
 
 rax.attach(restInstance);
 
 interface ApiCallsState {
-    title: string;
+    list: string;
     name: string;
 }
 
@@ -46,7 +47,7 @@ export default class ApiCalls extends PureComponent<{}, ApiCallsState> {
     constructor(props: {}) {
         super(props);
         this.state = {
-            title: "",
+            list: "",
             name: ""
         };
     }
@@ -56,22 +57,23 @@ export default class ApiCalls extends PureComponent<{}, ApiCallsState> {
 
   loadData = () => {
     let restInstancePosts = [
-      restInstance.get('/posts'),
-      restInstance.get('/users')
+      restInstance.get('/users'),
+      restInstance.get('/users/1')
       // test 500 & 503 
       //restInstance.get('/status/500'),
-      //restInstance.get('/status/5003')
+      //restInstance.get('/status/503')
     ];
     axios
       .all(restInstancePosts)
       .then(
         axios.spread(
-          (getPosts,getUsers) => {
-            console.log(getPosts.status, getPosts.data[0].title)
-            console.log(getUsers.status, getUsers.data[0].name)
+          (getUsers,getUser) => {
+            // console.log(getUsers.status, getUsers.data)
+            // console.log(getUser.status, getUser.data)
+            let all = getUsers.data.map((user:any) => <span key={user.id}>{user.name} </span>)
             this.setState({
-                name: getUsers.data[0].name,
-                title: getPosts.data[0].title
+                name: getUser.data.name,
+                list: all
             })
           }
         )
@@ -99,7 +101,7 @@ export default class ApiCalls extends PureComponent<{}, ApiCallsState> {
   render(): React.ReactNode {
     return (
       <div>
-        {this.state.name} has written {this.state.title}
+        {this.state.name} is part of {this.state.list}
       </div>
     );
   }

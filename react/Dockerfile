@@ -1,7 +1,7 @@
 #Build Stage Start
 
 #Specify a base image
-FROM node:13.12.0-alpine as builder 
+FROM node:13 as builder 
 
 #Specify a working directory
 WORKDIR '/app'
@@ -19,7 +19,7 @@ COPY . .
 RUN npm run build 
 
 #Run Stage Start
-FROM nginx
+FROM nginx:alpine
 
 #Copy production build files from builder phase to nginx
 COPY --from=builder /app/build /usr/share/nginx/html

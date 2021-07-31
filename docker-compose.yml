@@ -20,7 +20,7 @@ services:
       context: nodejs/
       dockerfile: Dockerfile
     environment:
-      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
       - './nodejs:/app'
       - '/app/node_modules'
