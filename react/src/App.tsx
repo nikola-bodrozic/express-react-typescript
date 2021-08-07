@@ -11,8 +11,7 @@ import About from "./components/About";
 import List from "./components/List";
 import Detail from './components/Detail'
 import ApiCalls from './components/ApiCalls'
-
-interface AppProps {}
+import AxiosTimeout from './components/AxiosTimeout'
 
 interface AppState {
   users: Array<User>;
@@ -29,7 +28,7 @@ interface Task {
   title: string;
 }
 
-class App extends Component<AppProps, AppState> {
+class App extends Component<{}, AppState> {
   state: AppState = {
     users: [],
     task: "",
@@ -87,7 +86,11 @@ class App extends Component<AppProps, AppState> {
           </Router>
         </div>
         <hr />
+        <AxiosTimeout />
+        <hr />
         <ApiCalls />
+        <hr />
+
       </div>
     );
   }

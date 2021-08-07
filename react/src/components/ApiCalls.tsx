@@ -44,13 +44,14 @@ interface ApiCallsState {
 }
 
 export default class ApiCalls extends PureComponent<{}, ApiCallsState> {
-    constructor(props: {}) {
-        super(props);
-        this.state = {
-            list: "",
-            name: ""
-        };
-    }
+  constructor(props: {}) {
+      super(props);
+      this.state = {
+          list: "",
+          name: ""
+      };
+  }
+    
   componentDidMount(){
     this.loadData()
   }

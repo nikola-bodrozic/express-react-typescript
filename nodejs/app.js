@@ -10,6 +10,8 @@ const MY_SQL_USER = "root"
 const MY_SQL_PASS = process.env.MYSQL_ROOT_PASSWORD
 const MY_SQL_DATABASE = "sampledb"
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 var connection = mysql.createConnection({
@@ -66,14 +68,10 @@ app.get("/users", (req, res) => {
 });
 
 app.get("/users/:id", (req, res) => {
-
   setTimeout((() => {
     const result = getUser(req.params.id)
     res.json(result)
   }), delay)
-
-
-
 });
 
 getUser = (id) => {
@@ -82,6 +80,15 @@ getUser = (id) => {
   }
   return users[id - 1];
 }
+
+app.post('/echo', function (req, res) {
+    const first = req.body.firstParam;
+    const second = req.body.secondParam;
+    setTimeout((() => {
+        //res.sendStatus(503)
+        res.send({ 'first': first, 'last': second });
+    }), delay)
+});
 
 app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`)

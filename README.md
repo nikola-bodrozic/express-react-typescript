@@ -25,7 +25,7 @@ Route `/users/*` has 4 secs delay.
 
 Prod. build is running on <http://localhost> It calls Nodejs service to get data from the API endpoints.
 
-Async / Await, Loader, Routes, Retry API calls, deal with error HTTP responses.
+Async / Await, Loader, Routes, Retry API calls, deal with error HTTP responses and axios timeout
 
 
 ## Debug locally react app
