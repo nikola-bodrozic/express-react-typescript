@@ -1,7 +1,7 @@
 #Build Stage Start
 
 #Specify a base image
-FROM node:13 as builder 
+FROM node:13.12.0-alpine as builder 
 
 #Specify a working directory
 WORKDIR '/app'
@@ -13,7 +13,9 @@ COPY package.json .
 RUN npm install
 
 #Copy remaining files
-COPY . .
+COPY ./ ./
+
+RUN ls -lA
 
 #Build the project for production
 RUN npm run build 
