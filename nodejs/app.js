@@ -20,19 +20,7 @@ var connection = mysql.createConnection({
   password: MY_SQL_PASS,
   database: MY_SQL_DATABASE
 })
-
-connection.connect()
-
-var taskName = '';
-
-connection.query('SELECT title FROM tasks WHERE id = 1', function(err, rows, fields) {
-  if (err) throw err
-
-  taskName = rows[0].title;
-})
-
-connection.end()
-
+  
 const delay = 4000;
 
 const users = [{
@@ -55,11 +43,16 @@ app.get("/", (req, res) =>
   })
 );
 
-app.get("/task", (req, res) =>
-  res.json({
-    "task": taskName
+app.get("/task", (req, res) => {
+  connection.query('SELECT title FROM tasks WHERE id = 1', function(err, rows, fields) {
+    if (err) throw err
+  
+    console.log(rows[0].title)
+    res.json({
+      "task": rows[0].title
+    })
   })
-);
+});
 
 app.get("/users", (req, res) => {
   setTimeout((() => {
