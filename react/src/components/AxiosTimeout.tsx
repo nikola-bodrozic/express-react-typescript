@@ -17,9 +17,9 @@ class AxiosTimeout extends Component <{}, FullName> {
     }
 
     componentDidMount() {
-        let baseURL = 'http://localhost:3008'
+        let baseURL = 'http://' + process.env.REACT_APP_NODE_IP
         axios.post(
-            baseURL + '/echo',
+            baseURL+'/echo',
             {
                 firstParam: 'ed',
                 secondParam: 'libero'
@@ -32,7 +32,7 @@ class AxiosTimeout extends Component <{}, FullName> {
             }
         ).then( 
         (response) => this.setState({
-          first:response.data.first,
+          first: response.data.first,
           last: response.data.last
         }), 
         (error) => console.log(error) );

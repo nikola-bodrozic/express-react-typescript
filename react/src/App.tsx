@@ -35,7 +35,7 @@ class App extends Component<{}, AppState> {
     loader: true
   }
   
-  baseUrl = 'http://' + process.env.REACT_APP_NODE_IP
+  baseUrl = process.env.REACT_APP_NODE_IP
 
   validateName = (users: User[]) => {
     const filtered: User[] = users.filter(user => user.name.length > 1)
@@ -44,13 +44,13 @@ class App extends Component<{}, AppState> {
 
   getUsers = async () => {
     try {
-      const response1 = await axios.get(this.baseUrl + '/task');
+      const response1 = await axios.get('http://' + this.baseUrl + '/task');
       let task = response1.data.task
       this.setState({
         task: task
       })
-      
-      const response2 = await axios.get(this.baseUrl + '/users');
+
+      const response2 = await axios.get('http://' + this.baseUrl + '/users');
       let users = response2.data
       users = this.validateName(users);
       this.setState({ 
@@ -86,11 +86,9 @@ class App extends Component<{}, AppState> {
           </Router>
         </div>
         <hr />
+        <ApiCalls />  
+        <hr />
         <AxiosTimeout />
-        <hr />
-        <ApiCalls />
-        <hr />
-
       </div>
     );
   }

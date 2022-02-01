@@ -25,7 +25,7 @@
     "start": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build": "REACT_APP_NODE_IP=127.0.0.1:3008 react-scripts build"
+    "build": "REACT_APP_NODE_IP=141.144.224.110:3008 react-scripts build"
   },
   "proxy": "http://nodejs:3008",
   "eslintConfig": {

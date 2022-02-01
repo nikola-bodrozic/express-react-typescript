@@ -4,11 +4,11 @@ import axios from 'axios';
 import * as rax from 'retry-axios';
 
 const restInstanceObject = {
-  baseURL: "http://127.0.0.1:3008",
+  baseURL: 'http://' + process.env.REACT_APP_NODE_IP,
   headers: { 'Content-Type': 'application/json' }
 };
 
-// test 500 & 503 
+// test 500 & 503 requests
 // const restInstanceObject = {
 //   baseURL: "https://httpbin.org",
 //   headers: { 'Content-Type': 'application/json' }
