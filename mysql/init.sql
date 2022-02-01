@@ -1,6 +1,6 @@
-CREATE database sampledb;
+CREATE database mydb;
 
-USE sampledb;
+USE mydb;
 
 CREATE TABLE IF NOT EXISTS tasks (
     id INT AUTO_INCREMENT PRIMARY KEY,

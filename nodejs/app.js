@@ -8,7 +8,7 @@ const port = 3008;
 const MY_SQL_HOST = "dbmysql"
 const MY_SQL_USER = "root"
 const MY_SQL_PASS = process.env.MYSQL_ROOT_PASSWORD
-const MY_SQL_DATABASE = "sampledb"
+const MY_SQL_DATABASE = process.env.MY_SQL_DATABASE
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
