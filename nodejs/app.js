@@ -55,15 +55,8 @@ app.get("/users", (req, res) => {
   }), delay)
 });
 
-app.get("/return500", (req, res) => {
-  connection.query('SELECT title FROM not-exist WHERE id = 1', function(err, rows, fields) {
-    if (err) throw err
-  
-    console.log(rows[0].title)
-    res.json({
-      "task": rows[0].title
-    })
-  })
+app.get("/http404", (req, res) => {
+  res.sendStatus(404);
 });
 
 app.get("/users/:id", (req, res) => {

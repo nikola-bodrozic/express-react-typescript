@@ -58,21 +58,54 @@ export default class AxiosRetry extends PureComponent<{}, AxiosRetryState> {
   loadData = () => {
     let restInstancePosts = [
       restInstance.get('/users'),
-      restInstance.get('/users/1'),
+      restInstance.get('/users/1')
       // test 500 & 503 
       //restInstance.get('/status/500'),
       //restInstance.get('/status/503')
     ];
+
     axios
       .all(restInstancePosts)
       .then(
         axios.spread(
-          (getUsers,getUser) => {
+          (getUsers, getUser) => {
             let all = getUsers.data.map((user:any) => <span key={user.id}>{user.name} </span>)
             this.setState({
                 name: getUser.data.name,
                 list: all
             })
+          }
+        )
+      )
+      .catch(error => {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.error(error.response.data);
+          console.error(error.response.status);
+          console.error(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+          // http.ClientRequest in node.js
+
+          console.error(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.error('Error', error.message);
+        }
+      });
+
+    let restInstance404 = [
+      restInstance.get('/http404')
+    ];
+
+    axios
+      .all(restInstance404)
+      .then(
+        axios.spread(
+          (get404) => {
+            console.log(get404)
           }
         )
       )
