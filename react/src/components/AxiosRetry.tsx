@@ -3,136 +3,38 @@ import React, { PureComponent } from 'react';
 import axios from 'axios';
 import * as rax from 'retry-axios';
 
-const restInstanceObject = {
-  baseURL: 'http://' + process.env.REACT_APP_NODE_IP,
-  headers: { 'Content-Type': 'application/json' }
-};
-
-// test 500 & 503 requests
-// const restInstanceObject = {
-//   baseURL: "https://httpbin.org",
-//   headers: { 'Content-Type': 'application/json' }
-// };
-const restInstance = axios.create(restInstanceObject);
-
-restInstance.defaults.raxConfig = {
-  retry:              4,
-  noResponseRetries:  4,
-  httpMethodsToRetry: ['GET', 'POST'],
-  statusCodesToRetry: [[300, 399], [400, 499], [500, 599]],
-  retryDelay:         200,
-  instance:           restInstance,
-  backoffType:        'static',
-  onRetryAttempt:     (raxCfg: any, params: any[] = []) => {          // handler for retry attempt (the handler is called when the retry is happening)
-    let paramsStr = params.join(', ');
-    if (paramsStr !== '') { paramsStr = ', (' + paramsStr + ')' }
-  
-    if (raxCfg !== undefined) {
-      console.log(`Retry attempt #${raxCfg.currentRetryAttempt}${paramsStr}`);
-    } else {
-      console.log(`Retry attempt${paramsStr}`);
-    }
-  }
-};
-
-rax.attach(restInstance);
-
-interface AxiosRetryState {
-    list: string;
-    name: string;
-}
-
-export default class AxiosRetry extends PureComponent<{}, AxiosRetryState> {
+export default class AxiosRetry extends PureComponent<{}, {}> {
   constructor(props: {}) {
       super(props);
-      this.state = {
-          list: "",
-          name: ""
-      };
   }
     
   componentDidMount(){
     this.loadData()
   }
 
-  loadData = () => {
-    let restInstancePosts = [
-      restInstance.get('/users'),
-      restInstance.get('/users/1')
-      // test 500 & 503 
-      //restInstance.get('/status/500'),
-      //restInstance.get('/status/503')
-    ];
-
-    axios
-      .all(restInstancePosts)
-      .then(
-        axios.spread(
-          (getUsers, getUser) => {
-            let all = getUsers.data.map((user:any) => <span key={user.id}>{user.name} </span>)
-            this.setState({
-                name: getUser.data.name,
-                list: all
-            })
-          }
-        )
-      )
-      .catch(error => {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.error(error.response.data);
-          console.error(error.response.status);
-          console.error(error.response.headers);
-        } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-          // http.ClientRequest in node.js
-
-          console.error(error.request);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.error('Error', error.message);
+  loadData = async () => {
+    const interceptorId = rax.attach();
+    const res = await axios({
+      url: `http://${process.env.REACT_APP_NODE_IP}/http503`,
+      raxConfig:{
+        retry: 5,
+        retryDelay: 1000,
+        httpMethodsToRetry: ['GET', 'HEAD', 'OPTIONS', 'DELETE', 'PUT'],
+        statusCodesToRetry: [[100, 199], [429, 429], [500, 599]],
+        backoffType: 'static',
+        onRetryAttempt: (err:any) => {
+          const cfg = rax.getConfig(err);
+          if(cfg) console.log(`Retry attempt #${cfg.currentRetryAttempt}`);
+          console.log(err)
         }
-      });
-
-    let restInstance404 = [
-      restInstance.get('/http404')
-    ];
-
-    axios
-      .all(restInstance404)
-      .then(
-        axios.spread(
-          (get404) => {
-            console.log(get404)
-          }
-        )
-      )
-      .catch(error => {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.error(error.response.data);
-          console.error(error.response.status);
-          console.error(error.response.headers);
-        } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-          // http.ClientRequest in node.js
-
-          console.error(error.request);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.error('Error', error.message);
-        }
-      });
+      }
+    })
   };
 
   render(): React.ReactNode {
     return (
       <div>
-        {this.state.name} is part of {this.state.list} {}
+        demo for HTTP 503 code
       </div>
     );
   }

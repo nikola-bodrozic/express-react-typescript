@@ -4,6 +4,7 @@ const mysql = require('mysql');
 const cors = require('cors');
 
 const port = 3008;
+var i = 0;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -55,8 +56,8 @@ app.get("/users", (req, res) => {
   }), delay)
 });
 
-app.get("/http404", (req, res) => {
-  res.sendStatus(404);
+app.get("/http503", (req, res) => {
+  res.sendStatus(503);
 });
 
 app.get("/users/:id", (req, res) => {
