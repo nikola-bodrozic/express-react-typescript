@@ -11,8 +11,8 @@ Set your public IP in react/package.json in scripts.build
 Set MySQL root password and database name in .env file and start docker stack
 
 ```sh
-echo 'MY_SQL_DATABASE=mydb' >> .env
 echo 'MYSQL_ROOT_PASSWORD=secret' > .env
+echo 'MY_SQL_DATABASE=mydb' >> .env
 docker-compose up 
 ```
 

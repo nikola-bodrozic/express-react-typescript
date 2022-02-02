@@ -1,27 +1,23 @@
-#Build Stage Start
+# 1st Stage
+FROM node:14-alpine as builder 
 
-#Specify a base image
-FROM node:13.12.0-alpine as builder 
-
-#Specify a working directory
+# Specify a working directory
 WORKDIR '/app'
 
-#Copy the dependencies file
+# Copy the dependencies file
 COPY package.json .
 
-#Install dependencies
+# Install dependencies
 RUN npm install
 
-#Copy remaining files
+# Copy remaining files
 COPY ./ ./
 
-RUN ls -lA
-
-#Build the project for production
+# Build the project for production
 RUN npm run build 
 
-#Run Stage Start
+# Run 2nd Stage
 FROM nginx:alpine
 
-#Copy production build files from builder phase to nginx
+# Copy production build files from builder phase to nginx
 COPY --from=builder /app/build /usr/share/nginx/html
