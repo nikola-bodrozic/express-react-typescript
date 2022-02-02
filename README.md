@@ -8,9 +8,10 @@ Set your public IP in react/package.json in scripts.build
 "build": "REACT_APP_NODE_IP=your-ip-address:3008 react-scripts build"
 ```
 
-Set MySQL root password in .env file and start docker stack
+Set MySQL root password and database name in .env file and start docker stack
 
 ```sh
+echo 'MY_SQL_DATABASE=mydb' >> .env
 echo 'MYSQL_ROOT_PASSWORD=secret' > .env
 docker-compose up 
 ```

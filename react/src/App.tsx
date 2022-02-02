@@ -5,12 +5,12 @@ import {
   Route,
   Switch
 } from "react-router-dom";
-
 import axios from "axios";
+import { SpinnerCircular } from 'spinners-react';
 import About from "./components/About";
 import List from "./components/List";
 import Detail from './components/Detail'
-import ApiCalls from './components/ApiCalls'
+import AxiosRetry from './components/AxiosRetry'
 import AxiosTimeout from './components/AxiosTimeout'
 
 interface AppState {
@@ -71,7 +71,7 @@ class App extends Component<{}, AppState> {
       <div className="App">
         <div>{this.state.task}</div>
         <hr />
-        <div>{this.state.loader ? 'loading...' : this.state.users.map(user => <div key={user.id}>{user.name}</div>)}</div>
+        <div>{this.state.loader ? <SpinnerCircular thickness={200} /> : this.state.users.map(user => <div key={user.id}>{user.name}</div>)}</div>
         <hr />
         <div>
           <Router>
@@ -86,7 +86,7 @@ class App extends Component<{}, AppState> {
           </Router>
         </div>
         <hr />
-        <ApiCalls />  
+        <AxiosRetry />  
         <hr />
         <AxiosTimeout />
       </div>

@@ -15,7 +15,6 @@ const restInstanceObject = {
 // };
 const restInstance = axios.create(restInstanceObject);
 
-// set up retry-attempt schema
 restInstance.defaults.raxConfig = {
   retry:              4,
   noResponseRetries:  4,
@@ -38,12 +37,12 @@ restInstance.defaults.raxConfig = {
 
 rax.attach(restInstance);
 
-interface ApiCallsState {
+interface AxiosRetryState {
     list: string;
     name: string;
 }
 
-export default class ApiCalls extends PureComponent<{}, ApiCallsState> {
+export default class AxiosRetry extends PureComponent<{}, AxiosRetryState> {
   constructor(props: {}) {
       super(props);
       this.state = {
@@ -59,7 +58,7 @@ export default class ApiCalls extends PureComponent<{}, ApiCallsState> {
   loadData = () => {
     let restInstancePosts = [
       restInstance.get('/users'),
-      restInstance.get('/users/1')
+      restInstance.get('/users/1'),
       // test 500 & 503 
       //restInstance.get('/status/500'),
       //restInstance.get('/status/503')
@@ -69,8 +68,6 @@ export default class ApiCalls extends PureComponent<{}, ApiCallsState> {
       .then(
         axios.spread(
           (getUsers,getUser) => {
-            // console.log(getUsers.status, getUsers.data)
-            // console.log(getUser.status, getUser.data)
             let all = getUsers.data.map((user:any) => <span key={user.id}>{user.name} </span>)
             this.setState({
                 name: getUser.data.name,
@@ -102,7 +99,7 @@ export default class ApiCalls extends PureComponent<{}, ApiCallsState> {
   render(): React.ReactNode {
     return (
       <div>
-        {this.state.name} is part of {this.state.list}
+        {this.state.name} is part of {this.state.list} {}
       </div>
     );
   }

@@ -5,23 +5,18 @@ const cors = require('cors');
 
 const port = 3008;
 
-const MY_SQL_HOST = "dbmysql"
-const MY_SQL_USER = "root"
-const MY_SQL_PASS = process.env.MYSQL_ROOT_PASSWORD
-const MY_SQL_DATABASE = process.env.MY_SQL_DATABASE
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 var connection = mysql.createConnection({
-  host: MY_SQL_HOST,
-  user: MY_SQL_USER,
-  password: MY_SQL_PASS,
-  database: MY_SQL_DATABASE
+  host: "dbmysql",
+  user: "root",
+  database: process.env.MY_SQL_DATABASE,
+  password: process.env.MYSQL_ROOT_PASSWORD
 })
   
-const delay = 4000;
+const delay = 3000;
 
 const users = [{
     id: 1,
@@ -60,6 +55,17 @@ app.get("/users", (req, res) => {
   }), delay)
 });
 
+app.get("/return500", (req, res) => {
+  connection.query('SELECT title FROM not-exist WHERE id = 1', function(err, rows, fields) {
+    if (err) throw err
+  
+    console.log(rows[0].title)
+    res.json({
+      "task": rows[0].title
+    })
+  })
+});
+
 app.get("/users/:id", (req, res) => {
   setTimeout((() => {
     const result = getUser(req.params.id)
@@ -78,7 +84,6 @@ app.post('/echo', function (req, res) {
     const first = req.body.firstParam;
     const second = req.body.secondParam;
     setTimeout((() => {
-        //res.sendStatus(503)
         res.send({ 'first': first, 'last': second });
     }), delay)
 });

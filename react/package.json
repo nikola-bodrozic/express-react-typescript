@@ -19,6 +19,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "retry-axios": "^2.4.0",
+    "spinners-react": "^1.0.6",
     "typescript": "~3.7.2"
   },
   "scripts": {
