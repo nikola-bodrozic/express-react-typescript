@@ -79,7 +79,7 @@ app.post('/echo', function (req, res) {
     const first = req.body.firstParam;
     const second = req.body.secondParam;
     setTimeout((() => {
-        res.send({ 'first': first, 'last': second });
+        res.send({ 'first': 'test ' + first, 'last': 'test ' + second });
     }), delay)
 });
 

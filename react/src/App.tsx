@@ -25,7 +25,7 @@ function App() {
     return filtered;
   }
 
-  const getUsers = async () => {
+  const getData = async () => {
     try {
       let res = await axios.get('http://' + baseUrl + '/users');
       let users = res.data
@@ -43,13 +43,17 @@ function App() {
   }
 
   useEffect(() => {
-    getUsers()
+    getData()
   }, []);
 
   return (
     <div className="App">
-      <div className='App-border'>{loading ? <SpinnerCircular thickness={200} /> : task}</div>
-      <div className='App-border'>{users.map(user => <div key={user.id}>{user.name}</div>)}</div>
+      <div className='App-border'>
+        {loading ? <SpinnerCircular thickness={200} /> : task}
+      </div>
+      <div className='App-border'>
+        {users.map(user => <div key={user.id}>{user.name}</div>)}
+      </div>
       <div className='App-border'>
         <Router>
           <nav>
@@ -65,10 +69,12 @@ function App() {
           </Routes>
         </Router>
       </div>
-      <hr />
-        <AxiosRetry />  
-        <hr />
+      <div className='App-border'>
+        <AxiosRetry />
+      </div>
+      <div className='App-border'>
         <AxiosTimeout />
+      </div>
     </div>
   );
 }
