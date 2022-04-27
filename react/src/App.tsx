@@ -1,99 +1,70 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Home from "./Pages/Home";
+import About from "./Pages/About";
+import Profile from "./Pages/Profile";
+import ErrorPage from "./Pages/ErrorPage";
 import axios from "axios";
 import { SpinnerCircular } from 'spinners-react';
-import About from "./components/About";
-import List from "./components/List";
-import Detail from './components/Detail'
-import AxiosRetry from './components/AxiosRetry'
-import AxiosTimeout from './components/AxiosTimeout'
 
-interface AppState {
-  users: Array<User>;
-  task: string;
-  loader: boolean;
-}
-
-interface User {
-  id: number;
-  name: string;
-}
-
-interface Task {
-  title: string;
-}
-
-class App extends Component<{}, AppState> {
-  state: AppState = {
-    users: [],
-    task: "",
-    loader: true
+function App() {
+  interface IUser {
+    id: number;
+    name: string;
   }
-  
-  baseUrl = process.env.REACT_APP_NODE_IP
+  let baseUrl = process.env.REACT_APP_NODE_IP || 'localhost:3008';
+  const [task, setTask] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [users, setUsers] = useState<IUser[]>([]);
 
-  validateName = (users: User[]) => {
-    const filtered: User[] = users.filter(user => user.name.length > 1)
+  const validateName = (users: IUser[]) => {
+    const filtered: IUser[] = users.filter(user => user.name.length > 1)
     return filtered;
   }
 
-  getUsers = async () => {
+  const getUsers = async () => {
     try {
-      const response1 = await axios.get('http://' + this.baseUrl + '/task');
-      let task = response1.data.task
-      this.setState({
-        task: task
-      })
+      let res = await axios.get('http://' + baseUrl + '/users');
+      let users = res.data
+      users = validateName(users);
+      setUsers(users)
 
-      const response2 = await axios.get('http://' + this.baseUrl + '/users');
-      let users = response2.data
-      users = this.validateName(users);
-      this.setState({ 
-        users:users, 
-        loader: false 
-      })   
+      res = await axios.get('http://' + baseUrl + '/task');
+      let task = res.data.task
+      setTask(task);
+      setLoading(false);
+
     } catch (error) {
       console.error(error);
     }
   }
 
-  componentDidMount() {
-    this.getUsers();
-  }
+  useEffect(() => {
+    getUsers()
+  }, []);
 
-  render(): React.ReactNode {
-    return (
-      <div className="App">
-        <div>{this.state.task}</div>
-        <hr />
-        <div>{this.state.loader ? <SpinnerCircular thickness={200} /> : this.state.users.map(user => <div key={user.id}>{user.name}</div>)}</div>
-        <hr />
-        <div>
-          <Router>
-            <Switch>
-              <Route exact path="/" component={List} />
-              <Route
-                path="/product/:name"
-                render={props => <Detail history={props.history} location={props.location} match={props.match} />}
-              />
-              <Route path="/about" component={About} />
-            </Switch>
-          </Router>
-        </div>
-        <hr />
-        <AxiosRetry />  
-        <hr />
-        <AxiosTimeout />
+  return (
+    <div className="App">
+      <div className='App-border'>{loading ? <SpinnerCircular thickness={200} /> : task}</div>
+      <div className='App-border'>{users.map(user => <div key={user.id}>{user.name}</div>)}</div>
+      <div className='App-border'>
+      <Router>
+        <nav>
+          <Link to="/"> Home | </Link>
+          <Link to="/about"> About | </Link>
+          <Link to="/profile/TestUser"> Profile </Link>
+        </nav>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/profile/:username" element={<Profile />} />
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
+      </Router>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default App;
-
-

@@ -42,18 +42,19 @@ app.get("/", (req, res) =>
 app.get("/task", (req, res) => {
   connection.query('SELECT title FROM tasks WHERE id = 1', function(err, rows, fields) {
     if (err) throw err
-  
+   setTimeout((() => {
     console.log(rows[0].title)
     res.json({
       "task": rows[0].title
     })
+      }), delay)
   })
 });
 
 app.get("/users", (req, res) => {
-  setTimeout((() => {
+
     res.json(users)
-  }), delay)
+  
 });
 
 app.get("/http503", (req, res) => {
@@ -61,10 +62,10 @@ app.get("/http503", (req, res) => {
 });
 
 app.get("/users/:id", (req, res) => {
-  setTimeout((() => {
+ 
     const result = getUser(req.params.id)
     res.json(result)
-  }), delay)
+
 });
 
 getUser = (id) => {
