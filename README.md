@@ -1,12 +1,8 @@
 # Express server, React TypeScript & MySQL service 
 
-## Run Docker stack
+Full Stack solution on Docker
 
-Set your public IP in react/package.json in scripts.build
-
-```text
-"build": "REACT_APP_NODE_IP=your-ip-address:3008 react-scripts build"
-```
+## Prepare
 
 Set MySQL root password and database name in .env file and start docker stack
 
@@ -23,18 +19,25 @@ MySQL service is running on dbmysql:3306 and it's used by nodejs service to get 
 ## Nodejs
 
 Starts express server with API endpoints at 
-- <http://your-public-ip:3008/task> gets data from database
-- <http://your-public-ip:3008/users> gets users
-- <http://your-public-ip:3008/users/:id>
+- <http://localhost:3008/task> gets data from database
+- <http://localhost:3008/users> gets users
+- <http://localhost:3008/users/:id>
 
-Route `/users/*` has 4 secs delay.  
+Route `/task` has 4 secs delay. It simulates latency.
 
 ## React
 
-Prod. build is running on <http://your-public-ip> It calls Nodejs service to get data from the API endpoints.
+Development
+
+`yarn`
+
+`yarn start`
+
+Production build is running on <http://localhost> after `docker-compose up` 
+
+It calls Nodejs service to get data from the API endpoints.
 
 Async / Await, Loader, Routes, Retry API calls, deal with error HTTP responses and axios timeout
-
 
 ## Debug locally react app
 
