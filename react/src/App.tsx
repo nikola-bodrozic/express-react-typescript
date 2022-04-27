@@ -7,6 +7,8 @@ import Profile from "./Pages/Profile";
 import ErrorPage from "./Pages/ErrorPage";
 import axios from "axios";
 import { SpinnerCircular } from 'spinners-react';
+import AxiosRetry from './Pages/AxiosRetry'
+import AxiosTimeout from './Pages/AxiosTimeout'
 
 function App() {
   interface IUser {
@@ -49,20 +51,24 @@ function App() {
       <div className='App-border'>{loading ? <SpinnerCircular thickness={200} /> : task}</div>
       <div className='App-border'>{users.map(user => <div key={user.id}>{user.name}</div>)}</div>
       <div className='App-border'>
-      <Router>
-        <nav>
-          <Link to="/"> Home | </Link>
-          <Link to="/about"> About | </Link>
-          <Link to="/profile/TestUser"> Profile </Link>
-        </nav>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/profile/:username" element={<Profile />} />
-          <Route path="*" element={<ErrorPage />} />
-        </Routes>
-      </Router>
+        <Router>
+          <nav>
+            <Link to="/"> Home | </Link>
+            <Link to="/about"> About | </Link>
+            <Link to="/profile/TestUser"> Profile </Link>
+          </nav>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/profile/:username" element={<Profile />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
+        </Router>
       </div>
+      <hr />
+        <AxiosRetry />  
+        <hr />
+        <AxiosTimeout />
     </div>
   );
 }
