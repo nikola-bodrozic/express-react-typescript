@@ -9,6 +9,7 @@ Set MySQL root password and database name in .env file and start docker stack
 ```sh
 echo 'MYSQL_ROOT_PASSWORD=secret' > .env
 echo 'MY_SQL_DATABASE=mydb' >> .env
+echo 'MYSQL_HOST=dbmysql' >> .env
 docker-compose up 
 ```
 
