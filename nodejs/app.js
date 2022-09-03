@@ -1,20 +1,13 @@
 const express = require("express");
 const app = express();
-const mysql = require('mysql');
+const connection = require('./conn')
 const cors = require('cors');
-require('dotenv').config();
 const port = 3008;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-var connection = mysql.createConnection({
-  host: process.env.MYSQL_HOST,
-  user: "root",
-  database: process.env.MYSQL_DATABASE,
-  password: process.env.MYSQL_ROOT_PASSWORD
-})
   
 const delay = 3000;
 
@@ -83,5 +76,5 @@ app.post('/echo', function (req, res) {
 });
 
 app.listen(port, () =>
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`Node API up at http://localhost:${port}`)
 );
