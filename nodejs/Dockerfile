@@ -1,6 +1,7 @@
-FROM node:14-alpine
+FROM node:18-alpine
 
-RUN apk update && apk upgrade
+# install latest upgrades
+RUN apk -U upgrade
 
 # set working directory
 WORKDIR /app
@@ -8,12 +9,15 @@ WORKDIR /app
 # add `/app/node_modules/.bin` to $PATH
 ENV PATH /app/node_modules/.bin:$PATH
 
-# install app dependencies
-COPY package.json ./
-RUN yarn install --network-timeout 1000000000
+# Copy the dependencies file
+COPY package.json .
+COPY package-lock.json .
+
+# Install dependencies
+RUN npm install
 
 # add app
-COPY . ./
+COPY . .
 
 # wait for MySQL server
 ENV DOCKERIZE_VERSION v0.6.0
