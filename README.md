@@ -7,15 +7,13 @@ Express server, React TypeScript & MySQL on Docker.
 For prod environment you need to set public IP or domain in react/package.json
 
 ```
-"build": "REACT_APP_NODE_IP=130.nnn.nnn.nnn:3008 react-scripts build",
+"build": "REACT_APP_NODE_IP=nnn.nnn.nnn.nnn:3008 react-scripts build",
 ```
 
-Set MySQL credentials in .env file. MYSQL_HOST must match name of MySQL service.
+Set MySQL credentials in .env file. MYSQL_HOST must match name of MySQL service and database name must match with database name in mysql/init.sql
 
 ```sh
-MYSQL_USER=
-MYSQL_PASSWORD=
-MYSQL_DATABASE=
+MYSQL_DATABASE=mydb
 MYSQL_HOST=dbmysql
 MYSQL_ROOT_PASSWORD=
 ```
@@ -23,7 +21,7 @@ MYSQL_ROOT_PASSWORD=
 and start docker stack
 
 ```sh
-docker-compose up 
+docker-compose up
 ```
 
 ## MySQL

@@ -1,52 +1,53 @@
 const express = require("express");
 const app = express();
-const connection = require('./conn')
-const cors = require('cors');
+const connection = require("./conn");
+const cors = require("cors");
 const port = 3008;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-  
 const delay = 3000;
 
-const users = [{
+const users = [
+  {
     id: 1,
-    name: "ronald"
+    name: "ronald",
   },
   {
     id: 2,
-    name: "jacob"
+    name: "jacob",
   },
   {
     id: 3,
-    name: "e"
-  }
+    name: "e",
+  },
 ];
 
 app.get("/", (req, res) =>
   res.json({
-    "msg": "welcome to API"
+    msg: "welcome to API",
   })
 );
 
 app.get("/task", (req, res) => {
-  connection.query('SELECT title FROM tasks WHERE id = 1', function(err, rows, fields) {
-    if (err) throw err
-   setTimeout((() => {
-    console.log(rows[0].title)
-    res.json({
-      "task": rows[0].title
-    })
-      }), delay)
-  })
+  connection.query(
+    "SELECT title FROM tasks WHERE id = 1",
+    function (err, rows, fields) {
+      if (err) throw err;
+      setTimeout(() => {
+        console.log(rows[0].title);
+        res.json({
+          task: rows[0].title,
+        });
+      }, delay);
+    }
+  );
 });
 
 app.get("/users", (req, res) => {
-
-    res.json(users)
-  
+  res.json(users);
 });
 
 app.get("/http503", (req, res) => {
@@ -54,27 +55,24 @@ app.get("/http503", (req, res) => {
 });
 
 app.get("/users/:id", (req, res) => {
- 
-    const result = getUser(req.params.id)
-    res.json(result)
-
+  const result = getUser(req.params.id);
+  res.json(result);
 });
 
 getUser = (id) => {
-  if (id > 2) return {
-    "msg": "user doesn't exist"
-  }
+  if (id > 2)
+    return {
+      msg: "user doesn't exist",
+    };
   return users[id - 1];
-}
+};
 
-app.post('/echo', function (req, res) {
-    const first = req.body.firstParam;
-    const second = req.body.secondParam;
-    setTimeout((() => {
-        res.send({ 'first': 'test ' + first, 'last': 'test ' + second });
-    }), delay)
+app.post("/echo", function (req, res) {
+  const first = req.body.firstParam;
+  const second = req.body.secondParam;
+  setTimeout(() => {
+    res.send({ first: "test " + first, last: "test " + second });
+  }, delay);
 });
 
-app.listen(port, () =>
-  console.log(`Node API up at http://localhost:${port}`)
-);
+app.listen(port, () => console.log(`Node API up at http://localhost:${port}`));
