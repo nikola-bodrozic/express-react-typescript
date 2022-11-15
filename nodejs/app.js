@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const connection = require("./conn");
 const cors = require("cors");
+const { validationResult } = require("express-validator");
+const { validateBody } = require("./validateBody");
 const port = 3008;
 
 app.use(express.json());
@@ -74,5 +76,19 @@ app.post("/echo", function (req, res) {
     res.send({ first: "test " + first, last: "test " + second });
   }, delay);
 });
+
+// curl -d '{"foo":"mandatory string", "bar":"optional string", "baz":[{"lang":"en"},{"lang":"fr"}]}' -H "Content-Type: application/json" -X POST http://localhost:3008/validate
+app.post(
+  "/validate",
+  validateBody,
+  (req, res) => {
+    console.log(req.body)
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    res.send(req.body);
+  }
+);
 
 app.listen(port, () => console.log(`Node API up at http://localhost:${port}`));
