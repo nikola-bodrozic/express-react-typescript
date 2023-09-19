@@ -52,7 +52,9 @@ function App() {
       <div className='App-border'>
         {loading ? <SpinnerCircular thickness={200} /> : task}
       </div>
-      <div className='App-border'><PowerAxios /></div>
+      <div className='App-border'>
+        <PowerAxios />
+      </div>
       <div className='App-border'>
         {users.map(user => <div key={user.id}>{user.name}</div>)}
       </div>
