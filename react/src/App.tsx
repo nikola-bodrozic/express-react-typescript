@@ -9,6 +9,7 @@ import axios from "axios";
 import { SpinnerCircular } from 'spinners-react';
 import AxiosRetry from './Pages/AxiosRetry'
 import AxiosTimeout from './Pages/AxiosTimeout'
+import PowerAxios from './Pages/PowerAxios';
 
 function App() {
   interface IUser {
@@ -51,6 +52,7 @@ function App() {
       <div className='App-border'>
         {loading ? <SpinnerCircular thickness={200} /> : task}
       </div>
+      <div className='App-border'><PowerAxios /></div>
       <div className='App-border'>
         {users.map(user => <div key={user.id}>{user.name}</div>)}
       </div>
