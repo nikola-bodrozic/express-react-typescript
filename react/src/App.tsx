@@ -9,7 +9,6 @@ import axios from "axios";
 import { SpinnerCircular } from 'spinners-react';
 import AxiosRetry from './Pages/AxiosRetry'
 import AxiosTimeout from './Pages/AxiosTimeout'
-import PowerAxios from './Pages/PowerAxios';
 
 function App() {
   interface IUser {
@@ -26,34 +25,35 @@ function App() {
     return filtered;
   }
 
-  const getData = async () => {
-    try {
-      let res = await axios.get('http://' + baseUrl + '/users');
-      let users = res.data
-      users = validateName(users);
-      setUsers(users)
-
-      res = await axios.get('http://' + baseUrl + '/task');
-      let task = res.data.task
-      setTask(task);
-      setLoading(false);
-
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   useEffect(() => {
-    getData()
+    let mounted = true;
+    const getData = async () => {
+      try {
+        let res = await axios.get('http://' + baseUrl + '/users');
+        let users = res.data;
+        users = validateName(users);
+        setUsers(users);
+
+        res = await axios.get('http://' + baseUrl + '/task');
+        let task = res.data.task
+        setTask(task);
+
+        setLoading(false);
+
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getData();
+    return () => {
+      mounted = false
+    }
   }, []);
 
   return (
     <div className="App">
       <div className='App-border'>
         {loading ? <SpinnerCircular thickness={200} /> : task}
-      </div>
-      <div className='App-border'>
-        <PowerAxios />
       </div>
       <div className='App-border'>
         {users.map(user => <div key={user.id}>{user.name}</div>)}
