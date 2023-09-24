@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Home from "./Pages/Home";
-import About from "./Pages/About";
-import Profile from "./Pages/Profile";
-import ErrorPage from "./Pages/ErrorPage";
+import Home from "./Components/Home";
+import About from "./Components/About";
+import Profile from "./Components/Profile";
+import ErrorPage from "./Components/ErrorPage";
 import axios from "axios";
 import { SpinnerCircular } from 'spinners-react';
-import AxiosRetry from './Pages/AxiosRetry'
-import AxiosTimeout from './Pages/AxiosTimeout'
+import AxiosRetry from './Components/AxiosRetry'
+import AxiosTimeout from './Components/AxiosTimeout'
 
 function App() {
   interface IUser {
