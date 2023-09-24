@@ -21,7 +21,7 @@ MYSQL_ROOT_PASSWORD=
 and start docker stack
 
 ```sh
-docker-compose up
+docker compose up
 ```
 
 ## MySQL
@@ -30,20 +30,14 @@ MySQL service is running on dbmysql:3306 and it's used by nodejs service to get 
 
 ## Nodejs
 
-Starts express server with API endpoints at 
-- <http://localhost:3008/task> gets data from database
-- <http://localhost:3008/users> gets users
-- <http://localhost:3008/users/:id>
+Express server with API endpoints at 
+- <http://localhost:3008/api/v1/task> gets data from database
+- <http://localhost:3008/api/v1/users> gets users
+- <http://localhost:3008/api/v1/users/:id> gets user
 
-Route `/task` has 4 secs delay. It simulates latency.
+Route `/task` has 1 second delay. It simulates latency.
 
 ## React
-
-Development
-
-`yarn`
-
-`yarn start`
 
 Production build is running on <http://localhost> after `docker-compose up` 
 
