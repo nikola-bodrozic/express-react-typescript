@@ -9,13 +9,14 @@ import axios from "axios";
 import { SpinnerCircular } from 'spinners-react';
 import AxiosRetry from './Components/AxiosRetry'
 import AxiosTimeout from './Components/AxiosTimeout'
+import { axiosClient } from './axiosClient';
 
 function App() {
   interface IUser {
     id: number;
     name: string;
   }
-  let baseUrl = process.env.REACT_APP_NODE_IP || 'localhost:3008';
+  
   const [task, setTask] = useState('');
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState<IUser[]>([]);
@@ -29,12 +30,12 @@ function App() {
     let mounted = true;
     const getData = async () => {
       try {
-        let res = await axios.get('http://' + baseUrl + '/users');
+        let res = await axiosClient.get('/users');
         let users = res.data;
         users = validateName(users);
         setUsers(users);
 
-        res = await axios.get('http://' + baseUrl + '/task');
+        res = await axiosClient.get('/task');
         let task = res.data.task
         setTask(task);
 

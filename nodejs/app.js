@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-const delay = 3000;
+const delay = 1000;
 
 const users = [
   {
@@ -26,14 +26,9 @@ const users = [
     name: "e",
   },
 ];
+const apiUrl = "/api/v1";
 
-app.get("/", (req, res) =>
-  res.json({
-    msg: "welcome to API",
-  })
-);
-
-app.get("/task", (req, res) => {
+app.get(`${apiUrl}/task`, (req, res) => {
   connection.query(
     "SELECT title FROM tasks WHERE id = 1",
     function (err, rows, fields) {
@@ -48,7 +43,7 @@ app.get("/task", (req, res) => {
   );
 });
 
-app.get("/users", (req, res) => {
+app.get(`${apiUrl}/users`, (req, res) => {
   res.json(users);
 });
 
@@ -56,7 +51,7 @@ app.get("/http503", (req, res) => {
   res.sendStatus(503);
 });
 
-app.get("/users/:id", (req, res) => {
+app.get(`${apiUrl}/users/id:`, (req, res) => {
   const result = getUser(req.params.id);
   res.json(result);
 });
