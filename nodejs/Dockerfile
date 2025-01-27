@@ -27,4 +27,4 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
     && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
 # start app
-CMD dockerize -wait tcp://dbmysql:3306 -timeout 60m yarn start
+CMD dockerize -wait tcp://dbmysql:3306 -timeout 60m npm run start:prod
