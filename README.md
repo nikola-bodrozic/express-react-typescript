@@ -33,11 +33,9 @@ MySQL service is running on dbmysql:3306 and it's used by nodejs service to get 
 ## Nodejs
 
 Express server with API endpoints at 
-- <http://localhost:3008/api/v1/task> gets data from database
-- <http://localhost:3008/api/v1/users> gets users
-- <http://localhost:3008/api/v1/users/:id> gets user
-
-Route `/task` has 1 second delay. It simulates latency so that loader icon is visible for 1 second.
+- <http://localhost:4000/api/v1/task> gets data from database
+- <http://localhost:4000/api/v1/users> gets users
+- <http://localhost:4000/api/v1/users/:id> gets user
 
 ## React
 

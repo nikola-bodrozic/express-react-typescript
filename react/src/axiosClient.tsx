@@ -1,11 +1,10 @@
 import axios, { AxiosInstance } from 'axios';
-const host = "http://localhost:3008";
+const host = `http://${process.env.REACT_APP_NODE_IP}`;
 const apiUrl = "/api/v1";
 const baseURL: string =`${host}${apiUrl}`;
-console.log("React env. variable: ", process.env.REACT_APP_NODE_IP)
 export const axiosClient: AxiosInstance = axios.create({
 	baseURL,
-	timeout: 2000,
+	timeout: 3000,
 	headers: {
 		MyHeader: 'MyValue',
 	},

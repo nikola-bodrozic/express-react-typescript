@@ -9,7 +9,7 @@ export default function AxiosRetry() {
     loadData();
   }, []);
   const loadData = async () => {
-    let baseUrl = process.env.REACT_APP_NODE_IP || 'localhost:3008';
+    let baseUrl = process.env.REACT_APP_NODE_IP || 'nodejs:4000';
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const interceptorId = rax.attach();

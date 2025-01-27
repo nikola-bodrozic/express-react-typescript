@@ -28,9 +28,9 @@ services:
       - './nodejs:/app'
       - '/app/node_modules'
     ports:
-      - 3008:3008
+      - 4000:4000
     expose:
-      - 3008
+      - 4000
     depends_on:
       - dbmysql
 

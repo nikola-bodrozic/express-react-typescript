@@ -8,7 +8,7 @@ interface IFullName {
 
 export default function AxiosTimeout() {
 	const [name, setName] = useState<IFullName>({ first: '', last: '' });
-	const baseUrl = process.env.REACT_APP_NODE_IP || 'localhost:3008';
+	const baseUrl = process.env.REACT_APP_NODE_IP || 'localhost:4000';
 	useEffect(() => {
 		let baseURL = 'http://' + baseUrl
 		axios.post(

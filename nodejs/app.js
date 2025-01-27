@@ -1,11 +1,11 @@
 const express = require("express");
 const app = express();
-const mysql = require('mysql2/promise');
+const mysql = require("mysql2/promise");
 const cors = require("cors");
 const { validationResult } = require("express-validator");
 const { validateBody } = require("./validateBody");
 const port = 4000;
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -37,10 +37,10 @@ async function connectToDatabase() {
       database: process.env.MYSQL_DATABASE,
       password: process.env.MYSQL_PASSWORD,
     });
-    console.log('Connected to the database.');
+    console.log("Connected to the database.");
     return db;
   } catch (err) {
-    console.error('Error connecting to the database:', err.stack);
+    console.error("Error connecting to the database:", err.stack);
     throw err;
   }
 }
@@ -48,13 +48,11 @@ async function connectToDatabase() {
 app.get(`${apiUrl}/task`, async (req, res) => {
   const db = await connectToDatabase();
   try {
-    const [results] = await db.query('SELECT title FROM tasks WHERE id = 1');
-    setTimeout(() => {
-      console.log(results[0])
-      res.json(results[0]);
-    }, delay);
+    const [results] = await db.query("SELECT title FROM tasks WHERE id = 1");
+    console.log(results[0]);
+    res.json(results[0]);
   } catch (err) {
-    res.status(500).json({ error: 'Database query failed' });
+    res.status(500).json({ error: "Database query failed" });
   } finally {
     await db.end();
   }
@@ -90,17 +88,13 @@ app.post("/echo", function (req, res) {
 });
 
 // curl -d '{"foo":"mandatory string", "bar":"optional string", "baz":[{"lang":"en"},{"lang":"fr"}]}' -H "Content-Type: application/json" -X POST http://localhost:3008/validate
-app.post(
-  "/validate",
-  validateBody,
-  (req, res) => {
-    console.log(req.body)
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-    res.send(req.body);
+app.post("/validate", validateBody, (req, res) => {
+  console.log(req.body);
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
   }
-);
+  res.send(req.body);
+});
 
 app.listen(port, () => console.log(`Node API up at http://localhost:${port}`));
