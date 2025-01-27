@@ -2,9 +2,9 @@
 
 Express server, React TypeScript & MySQL on Docker. 
 
-It calls Nodejs service to get data from the API endpoints.
+React calls Nodejs service to get data from the API endpoints.
 
-Axios in useEffect with Async / Await and unmount, Loader, Routes, Retry API calls, deal with error HTTP responses and axios timeout
+Axios in useEffect with Async / Await and unmount, Loader, Retry API calls, deal with error HTTP responses and axios timeout
 
 ## Prepare
 
@@ -40,6 +40,22 @@ Express server with API endpoints at
 ## React
 
 Production build is running on <http://localhost> after `docker-compose up` 
+
+## Comunication between containers in Docker stack
+
+Shell in react container and cURL to nodejs container
+```sh
+curl nodejs:4000/api/v1/task
+{"title":"get milk"}
+```
+
+## Comunication between host and nodejs container in Docker stack
+
+in host machine cURL to nodejs microservice
+```sh
+curl http://localhost:4000/api/v1/task
+{"title":"get milk"}
+```
 
 ## Debug locally react app
 
