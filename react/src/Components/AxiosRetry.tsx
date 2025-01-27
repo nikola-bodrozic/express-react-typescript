@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import axios from 'axios';
 import * as rax from 'retry-axios';
 
 export default function AxiosRetry() {
-
+  const [msg, setMsg] = useState("")
   useEffect(() => {
     loadData();
   }, []);
@@ -29,12 +29,14 @@ export default function AxiosRetry() {
         }
       }
     })
+    console.log(res.data)
+    setMsg(res.data.msg)
   };
 
 
   return (
     <div>
-      demo for HTTP 503 code open console
+      demo for HTTP 503 and HTTP 200 code open console {msg}
     </div>
   );
 

@@ -59,8 +59,15 @@ app.get(`${apiUrl}/users`, (req, res) => {
   res.json(users);
 });
 
+// test HTTP 503 and HTTP 200
 app.get("/http503", (req, res) => {
-  res.sendStatus(503);
+  const rnd = Math.random()
+  console.log(rnd)
+  if (rnd < 0.5) {
+    res.sendStatus(503);
+  } else {
+    res.json({ msg: "ok" });
+  }
 });
 
 app.get(`${apiUrl}/users/id:`, (req, res) => {
