@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import ErrorPage from "./Components/ErrorPage";
-import axios from "axios";
 import { SpinnerCircular } from 'spinners-react';
 import AxiosRetry from './Components/AxiosRetry'
-import AxiosTimeout from './Components/AxiosTimeout'
 import { axiosClient } from './axiosClient';
 
 function App() {
@@ -52,9 +49,6 @@ function App() {
       </div>
       <div className='App-border'>
         <AxiosRetry />
-      </div>
-      <div className='App-border'>
-        <AxiosTimeout />
       </div>
     </div>
   );

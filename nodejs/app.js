@@ -10,9 +10,6 @@ dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-
-const delay = 1000;
-
 const users = [
   {
     id: 1,
@@ -78,14 +75,6 @@ getUser = (id) => {
     };
   return users[id - 1];
 };
-
-app.post("/echo", function (req, res) {
-  const first = req.body.firstParam;
-  const second = req.body.secondParam;
-  setTimeout(() => {
-    res.send({ first: "test " + first, last: "test " + second });
-  }, delay);
-});
 
 // curl -d '{"foo":"mandatory string", "bar":"optional string", "baz":[{"lang":"en"},{"lang":"fr"}]}' -H "Content-Type: application/json" -X POST http://localhost:3008/validate
 app.post("/validate", validateBody, (req, res) => {

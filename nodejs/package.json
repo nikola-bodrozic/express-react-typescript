@@ -2,7 +2,7 @@
   "name": "backend-for-reactjs",
   "version": "1.0.0",
   "scripts": {
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "dependencies": {
     "cors": "~2.8.5",
@@ -11,5 +11,8 @@
     "express-validator": "^6.14.2",
     "mysql": "^2.16.0",
     "mysql2": "^3.12.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
   }
 }
