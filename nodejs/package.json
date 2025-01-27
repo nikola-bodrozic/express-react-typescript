@@ -6,9 +6,10 @@
   },
   "dependencies": {
     "cors": "~2.8.5",
-    "dotenv": "^16.0.2",
+    "dotenv": "^16.4.7",
     "express": "~4.16.1",
     "express-validator": "^6.14.2",
-    "mysql": "^2.16.0"
+    "mysql": "^2.16.0",
+    "mysql2": "^3.12.0"
   }
 }
