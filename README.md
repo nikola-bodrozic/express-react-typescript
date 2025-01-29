@@ -8,9 +8,10 @@ Axios in useEffect with Async / Await and unmount, Loader, Retry API calls, deal
 
 ## Prepare
 
-Rename `.env.template` to `.env`. Set MySQL credentials in .env file. 
-MYSQL_HOST must match name of MySQL service
-MYSQL_DATABASE must match with database in mysql/init.sql MYSQL_PASSWORD must match with password in mysql/init.sql
+Rename `.env.template` to `.env`. Set MySQL credentials in .env file: 
+- MYSQL_HOST must match name of MySQL service
+- MYSQL_DATABASE must match with database in mysql/init.sql 
+- MYSQL_PASSWORD must match with password in mysql/init.sql
 
 ```sh
 MYSQL_PASSWORD=
