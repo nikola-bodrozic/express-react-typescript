@@ -4,6 +4,7 @@ const mysql = require("mysql2/promise");
 const cors = require("cors");
 const { validationResult } = require("express-validator");
 const { validateBody } = require("./validateBody");
+const logger = require('./logger')
 const port = 4000;
 const dotenv = require("dotenv");
 dotenv.config();
@@ -26,32 +27,45 @@ const users = [
 ];
 const apiUrl = "/api/v1";
 
-async function connectToDatabase() {
-  try {
-    const db = await mysql.createConnection({
-      host: process.env.MYSQL_HOST,
-      user: process.env.MYSQL_USER,
-      database: process.env.MYSQL_DATABASE,
-      password: process.env.MYSQL_PASSWORD,
-    });
-    console.log("Connected to the database.");
-    return db;
-  } catch (err) {
-    console.error("Error connecting to the database:", err.stack);
-    throw err;
-  }
-}
+const pool = mysql.createPool({
+  connectionLimit: 10,
+  host: process.env.MYSQL_HOST,
+  user: process.env.MYSQL_USER,
+  database: process.env.MYSQL_DATABASE,
+  password: process.env.MYSQL_PASSWORD,
+});
 
-app.get(`${apiUrl}/task`, async (req, res) => {
-  const db = await connectToDatabase();
+pool.on('connection', (connection) => {
+  logger.info(`New connection established with ID: ${connection.threadId}`);
+});
+
+pool.on('acquire', (connection) => {
+  connection.startTime = Date.now();
+  logger.info(`Connection with ID: ${connection.threadId} acquired`);
+});
+
+pool.on('release', (connection) => {
+  const endTime = Date.now();
+  const duration = endTime - connection.startTime;
+  logger.info(`Connection with ID: ${connection.threadId} released`);
+  logger.info(`Query lasted ${duration} ms \n`);
+});
+
+// test connection to database - curl localhost:4000/api/v1/task/1
+app.get(`${apiUrl}/task/:id`, async (req, res) => {
+  const id = parseInt(req.params.id, 10);
+
+  if (isNaN(id)) {
+    return res.status(400).json({ error: 'Invalid id parameter' });
+  }
+
+  const sqlQuery = 'SELECT * FROM tasks WHERE id = ?';
   try {
-    const [results] = await db.query("SELECT title FROM tasks WHERE id = 1");
-    console.log(results[0]);
-    res.json(results[0]);
-  } catch (err) {
-    res.status(500).json({ error: "Database query failed" });
-  } finally {
-    await db.end();
+    const [rows] = await pool.execute(sqlQuery, [id]);
+    res.json(rows);
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: 'Database query error' });
   }
 });
 
@@ -59,7 +73,20 @@ app.get(`${apiUrl}/users`, (req, res) => {
   res.json(users);
 });
 
-// test HTTP 503 and HTTP 200
+app.get(`${apiUrl}/users/:id`, (req, res) => {
+  const result = getUser(req.params.id);
+  res.json(result);
+});
+
+getUser = (id) => {
+  if (id > 3)
+    return {
+      msg: "user doesn't exist",
+    };
+  return users[id - 1];
+};
+
+// test HTTP 503 and subsequent HTTP 200
 app.get("/http503", (req, res) => {
   const rnd = Math.random()
   console.log(rnd)
@@ -70,18 +97,7 @@ app.get("/http503", (req, res) => {
   }
 });
 
-app.get(`${apiUrl}/users/id:`, (req, res) => {
-  const result = getUser(req.params.id);
-  res.json(result);
-});
 
-getUser = (id) => {
-  if (id > 2)
-    return {
-      msg: "user doesn't exist",
-    };
-  return users[id - 1];
-};
 
 // curl -d '{"foo":"mandatory string", "bar":"optional string", "baz":[{"lang":"en"},{"lang":"fr"}]}' -H "Content-Type: application/json" -X POST http://localhost:3008/validate
 app.post("/validate", validateBody, (req, res) => {
