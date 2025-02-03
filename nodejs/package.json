@@ -15,7 +15,9 @@
     "picocolors": "^1.1.1"
   },
   "devDependencies": {
+    "jest": "^29.7.0",
     "nodemon": "^3.1.9",
+    "supertest": "^7.0.0",
     "winston": "^3.17.0"
   }
 }

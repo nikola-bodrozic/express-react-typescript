@@ -97,8 +97,6 @@ app.get("/http503", (req, res) => {
   }
 });
 
-
-
 // curl -d '{"foo":"mandatory string", "bar":"optional string", "baz":[{"lang":"en"},{"lang":"fr"}]}' -H "Content-Type: application/json" -X POST http://localhost:3008/validate
 app.post("/validate", validateBody, (req, res) => {
   console.log(req.body);
@@ -109,4 +107,6 @@ app.post("/validate", validateBody, (req, res) => {
   res.send(req.body);
 });
 
-app.listen(port, () => console.log(`Node API up at http://localhost:${port}`));
+const server = app.listen(port, () => console.log(`Node API up at http://localhost:${port}`));
+
+module.exports = { app, server };
