@@ -22,7 +22,7 @@ const users = [
   },
   {
     id: 3,
-    name: "e",
+    name: "ed",
   },
 ];
 const apiUrl = "/api/v1";
@@ -87,7 +87,7 @@ getUser = (id) => {
 };
 
 // simulate server boooting up
-app.get('/serverboot', (req, res) => {
+app.get(`${apiUrl}/serverboot`, (req, res) => {
   const currentTime = Date.now();
   if (currentTime - serverStartTime < 8000) {
     res.status(503).send('Service Unavailable. Please try again later.');

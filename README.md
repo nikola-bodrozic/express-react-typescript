@@ -66,7 +66,12 @@ yarn jest --coverage
 
 open file in `nodejs/coverage/lcov-report/app.js.html` to see what lines are covered
 
-## Debug locally react app
+
+## Retry till Express server is up
+it is in route `/api/v1/serverboot` and react componet that waits and shows data from server is `RaxCall.tsx`
+
+
+## Debug React app
 - in folder `nodejs` install dependancies `yarn` and start Express server `yarn start`
 - install `Debugger for Chrome` on Code
 - in react folder run `yarn` to install dependanices and `yarn start` to start app on port 3000

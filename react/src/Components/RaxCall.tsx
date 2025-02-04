@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { baseURL } from '../axiosClient';
 import * as rax from 'retry-axios';
 
 function RaxCall() {
@@ -7,15 +8,15 @@ function RaxCall() {
   axiosInstance.defaults.raxConfig = {
     instance: axiosInstance
   };
-  const interceptorId = rax.attach(axiosInstance);
+  rax.attach(axiosInstance);
 
-  const [data, setData] = useState<any>(null);
-  const [error, setError] = useState(null);
+  const [data, setData] = useState('');
+  const [error, setError] = useState<any>(null);
 
   useEffect(() => {
     (async () => {
       try {
-        const response = await axiosInstance.get('http://localhost:4000/serverboot', {
+        const response = await axiosInstance.get(baseURL+'/serverboot', {
           raxConfig: {
             retry: 10,
             instance: axiosInstance,
@@ -32,6 +33,7 @@ function RaxCall() {
         setData(response.data);
       } catch (error) {
         console.error(error);
+        setError(error)
       }
     })();
   }, []);
@@ -46,7 +48,8 @@ function RaxCall() {
 
   return (
     <div>
-      <h1>{JSON.stringify(data)}</h1>
+      <p>simulated server booting up on route <b>/api/v1/serverboot</b></p>
+      <p>{data}</p>
     </div>
   );
 }
