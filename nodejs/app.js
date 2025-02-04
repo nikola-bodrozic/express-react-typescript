@@ -26,7 +26,7 @@ const users = [
   },
 ];
 const apiUrl = "/api/v1";
-
+const serverStartTime = Date.now();
 const pool = mysql.createPool({
   connectionLimit: 10,
   host: process.env.MYSQL_HOST,
@@ -85,6 +85,16 @@ getUser = (id) => {
     };
   return users[id - 1];
 };
+
+// simulate server boooting up
+app.get('/serverboot', (req, res) => {
+  const currentTime = Date.now();
+  if (currentTime - serverStartTime < 8000) {
+    res.status(503).send('Service Unavailable. Please try again later.');
+  } else {
+    res.status(200).send('Data received');
+  }
+});
 
 // curl -d '{"foo":"mandatory string", "bar":"optional string", "baz":[{"lang":"en"},{"lang":"fr"}]}' -H "Content-Type: application/json" -X POST http://localhost:3008/validate
 app.post("/validate", validateBody, (req, res) => {
