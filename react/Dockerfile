@@ -1,10 +1,11 @@
 # Stage 1: Build the React app
 FROM node:18-alpine AS build
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
+COPY package.json ./
+COPY yarn.lock ./
+RUN yarn
 COPY . .
-RUN npm run build
+RUN yarn build
 
 # Stage 2: Serve the static files using nginx:alpine
 FROM nginx:alpine
