@@ -4,7 +4,7 @@ Express server, React TypeScript & MySQL on Docker.
 
 React calls Nodejs service to get data from the API endpoints.
 
-Axios in useEffect with Async / Await and unmount, Loader, Retry API calls, deal with error HTTP responses and axios timeout
+Axios in useEffect with Async / Await, Loader, dealing with error HTTP responses and axios timeout. Code coverage in HTML format.
 
 ## Prepare
 
@@ -34,9 +34,9 @@ MySQL service is running on dbmysql:3306 and it's used by nodejs service to get 
 ## Nodejs
 
 Express server with API endpoints at 
-- <http://localhost:4000/api/v1/task> gets data from database
+- <http://localhost:4000/api/v1/task/1> gets task from database
 - <http://localhost:4000/api/v1/users> gets users
-- <http://localhost:4000/api/v1/users/:id> gets user
+- <http://localhost:4000/api/v1/users/1> gets user
 
 ## React
 
@@ -46,7 +46,7 @@ Production build is running on <http://localhost> after `docker-compose up`
 
 Shell in react container and cURL to nodejs container
 ```sh
-curl nodejs:4000/api/v1/task
+curl nodejs:4000/api/v1/task/1
 {"title":"get milk"}
 ```
 
@@ -54,12 +54,20 @@ curl nodejs:4000/api/v1/task
 
 in host machine cURL to nodejs microservice
 ```sh
-curl http://localhost:4000/api/v1/task
+curl http://localhost:4000/api/v1/task/1
 {"title":"get milk"}
 ```
 
-## Debug locally react app
+## Code coverage
 
+```sh
+yarn jest --coverage
+```
+
+open file in `nodejs/coverage/lcov-report/app.js.html` to see what lines are covered
+
+## Debug locally react app
+- in folder `nodejs` install dependancies `yarn` and start Express server `yarn start`
 - install `Debugger for Chrome` on Code
 - in react folder run `yarn` to install dependanices and `yarn start` to start app on port 3000
 - set break points & run debugger

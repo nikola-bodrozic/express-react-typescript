@@ -86,17 +86,6 @@ getUser = (id) => {
   return users[id - 1];
 };
 
-// test HTTP 503 and subsequent HTTP 200
-app.get("/http503", (req, res) => {
-  const rnd = Math.random()
-  console.log(rnd)
-  if (rnd < 0.5) {
-    res.sendStatus(503);
-  } else {
-    res.json({ msg: "ok" });
-  }
-});
-
 // curl -d '{"foo":"mandatory string", "bar":"optional string", "baz":[{"lang":"en"},{"lang":"fr"}]}' -H "Content-Type: application/json" -X POST http://localhost:3008/validate
 app.post("/validate", validateBody, (req, res) => {
   console.log(req.body);

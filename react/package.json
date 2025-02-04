@@ -1,5 +1,5 @@
 {
-  "name": "react2",
+  "name": "react-use-api",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -19,7 +19,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "REACT_APP_NODE_IP=127.0.0.1:4000 react-scripts start",
     "build": "REACT_APP_NODE_IP=127.0.0.1:4000 react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
