@@ -1,18 +1,6 @@
 version: '3'
 
 services:
-
-  react:
-    container_name: react
-    build:
-      context: react/
-      dockerfile: Dockerfile
-    volumes:
-      - './react:/app'
-    ports:
-      - 80:80
-    depends_on:
-      - nodejs
       
   nodejs:
     container_name: nodejs
@@ -32,11 +20,11 @@ services:
     expose:
       - 4000
     depends_on:
-      - dbmysql
+      - mysql-service
 
-  dbmysql:
+  mysql-service:
     image: mysql:5.7
-    container_name: dbmysql
+    container_name: mysql-service
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}

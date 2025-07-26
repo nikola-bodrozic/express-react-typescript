@@ -16,7 +16,7 @@ Rename `.env.template` to `.env`. Set MySQL credentials in .env file:
 ```sh
 MYSQL_PASSWORD=
 MYSQL_DATABASE=mydb
-MYSQL_HOST=dbmysql
+MYSQL_HOST=mysql-service
 MYSQL_USER=
 MYSQL_ROOT_PASSWORD=
 ```
@@ -29,7 +29,7 @@ docker compose up
 
 ## MySQL
 
-MySQL service is running on dbmysql:3306 and it's used by nodejs service to get a row from database. Database is pre populated with data from `./mysql/init.sql` script.
+MySQL service is running on mysql-service:3306 and it's used by nodejs service to get a row from database. Database is pre populated with data from `./mysql/init.sql` script.
 
 ## Nodejs
 
