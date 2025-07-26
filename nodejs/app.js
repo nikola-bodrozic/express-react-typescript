@@ -36,7 +36,7 @@ const pool = mysql.createPool({
 });
 
 pool.on('connection', (connection) => {
-  logger.info(`New connection established with ID: ${connection.threadId}`);
+  logger.info(`New connection eeeeestablished with ID: ${connection.threadId}`);
 });
 
 pool.on('acquire', (connection) => {
@@ -55,9 +55,9 @@ pool.on('release', (connection) => {
 app.get(`${apiUrl}/task/:id`, async (req, res) => {
   const id = parseInt(req.params.id, 10);
 
-    if (isNaN(id)) {
-      return res.status(400).json({ error: 'Invalid id parameter' });
-    }
+  if (isNaN(id)) {
+    return res.status(400).json({ error: 'Invalid id parameter' });
+  }
 
   const sqlQuery = 'SELECT * FROM tasks WHERE id = ?';
   try {
@@ -100,15 +100,23 @@ app.post("/validate", validateBody, (req, res) => {
 // Health Check Endpoint for Kubernetes probes
 app.get(`${apiUrl}/health`, async (req, res) => {
   try {
-    // Attempt to get a connection from the pool to check database connectivity
-    await pool.getConnection();
-    // If successful, release the connection immediately
-    res.status(200).send('OK: Service and Database are healthy.');
+    const connection = await pool.getConnection();
+    connection.release(); // release immediately just to test connectivity
+
+    const freeConnections = pool.pool._freeConnections.length;
+    const totalConnections = pool.pool._allConnections.length;
+    const usedConnections = totalConnections - freeConnections;
+
+    res.status(200).send(
+      `OK: Service and Database are healthy.\n` +
+      `Connections — Total: ${totalConnections}, Used: ${usedConnections}, Free: ${freeConnections}`
+    );
   } catch (error) {
     logger.error(`Health check failed: Database connection error: ${error.message}`);
     res.status(503).send('ERROR: Database connection failed.');
   }
 });
+
 
 const server = app.listen(port, () => console.log(`Node API up at http://localhost:${port}`));
 
