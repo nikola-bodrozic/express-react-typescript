@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-deployment
+  labels:
+    app: nodejs
+spec:
+  replicas: 1 # You can increase this for more instances
+  selector:
+    matchLabels:
+      app: nodejs
+  template:
+    metadata:
+      labels:
+        app: nodejs
+    spec:
+      containers:
+      - name: nodejs
+        image: nodejs-app:latest # Replace with your actual image name if you're pushing to a registry
+        imagePullPolicy: Never # Use 'Always' if pulling from a remote registry
+        ports:
+        - containerPort: 4000
+        env:
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secrets
+              key: MYSQL_DATABASE
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secrets
+              key: MYSQL_PASSWORD
+        - name: MYSQL_HOST
+          value: mysql-service # This refers to the Kubernetes service name for MySQL
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secrets
+              key: MYSQL_USER
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/v1/health
+            port: 4000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /api/v1/health
+            port: 4000
+          initialDelaySeconds: 5
+          periodSeconds: 10

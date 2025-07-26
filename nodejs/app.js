@@ -55,9 +55,9 @@ pool.on('release', (connection) => {
 app.get(`${apiUrl}/task/:id`, async (req, res) => {
   const id = parseInt(req.params.id, 10);
 
-  if (isNaN(id)) {
-    return res.status(400).json({ error: 'Invalid id parameter' });
-  }
+    if (isNaN(id)) {
+      return res.status(400).json({ error: 'Invalid id parameter' });
+    }
 
   const sqlQuery = 'SELECT * FROM tasks WHERE id = ?';
   try {

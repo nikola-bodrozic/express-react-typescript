@@ -1,7 +1,18 @@
 version: '3'
 
 services:
-      
+  react:
+    container_name: react
+    build:
+      context: react/
+      dockerfile: Dockerfile
+    volumes:
+      - './react:/app'
+    ports:
+      - 80:80
+    depends_on:
+      - nodejs
+
   nodejs:
     container_name: nodejs
     build:

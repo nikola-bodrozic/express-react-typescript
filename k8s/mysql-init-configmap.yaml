@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-init-scripts
+data:
+  init.sql: |
+    CREATE DATABASE IF NOT EXISTS mydb;
+    USE mydb;
+    -- Create user 'bob' with the specified password and grant permissions
+    -- IMPORTANT: Replace 'passw###..9798AG' with the ACTUAL password you want 'bob' to have
+    -- Make sure this matches the password in your mysql-secrets.yaml
+    CREATE USER IF NOT EXISTS 'bob'@'%' IDENTIFIED BY 'passw###..9798AG';
+    GRANT ALL PRIVILEGES ON mydb.* TO 'bob'@'%';
+    FLUSH PRIVILEGES;
+
+    -- Your table creation (if not already there)
+    CREATE TABLE IF NOT EXISTS tasks (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL
+    );
+    -- Insert initial data (if not already there)
+    INSERT INTO tasks (name) VALUES ('Learn Kubernetes');
+    INSERT INTO tasks (name) VALUES ('Build a K8s app');

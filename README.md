@@ -76,3 +76,36 @@ it is in route `/api/v1/serverboot` and react componet that waits and shows data
 - install `Debugger for Chrome` on Code
 - in react folder run `yarn` to install dependanices and `yarn start` to start app on port 3000
 - set break points & run debugger
+
+
+## Run k8s
+
+in nodejs folder 
+
+```sh
+docker build -t nodejs-app:latest ./nodejs
+```
+
+in k8s folder
+
+Apply all your Kubernetes YAML files in order:
+
+```sh
+kubectl apply -f mysql-secrets.yaml
+kubectl apply -f mysql-init-configmap.yaml
+kubectl apply -f mysql-persistent-volume-claim.yaml
+kubectl apply -f mysql-service.yaml
+kubectl apply -f mysql-deployment.yaml
+kubectl apply -f nodejs-service.yaml
+kubectl apply -f nodejs-deployment.yaml
+```
+
+## clean up k8s
+
+```sh
+kubectl delete deployment nodejs-deployment mysql-deployment
+kubectl delete service nodejs-service mysql-service
+kubectl delete pvc mysql-pv-claim
+kubectl delete secret mysql-secrets
+kubectl delete configmap mysql-init-scripts
+```
