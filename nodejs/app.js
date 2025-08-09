@@ -77,17 +77,12 @@ app.post("/validate", validateBody, (req, res) => {
 
 app.get(`${apiUrl}/health`, async (req, res) => {
   const healthReport = {
-    status: "UP",
     hostname: os.hostname(),
-    memoryUsage: process.memoryUsage(),
-    timestamp: new Date().toISOString(),
+    pod_name: process.env.POD_NAME || "local-dev",
   };
 
   try {
-    // Just check DB connectivity, no stats needed here
-    const connection = await pool.getConnection();
-    connection.release();
-
+    console.log(JSON.stringify(healthReport))
     res.status(200).json(healthReport);
   } catch (error) {
     logger.error(`Health check failed: ${error.message}`);

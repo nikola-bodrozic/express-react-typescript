@@ -38,6 +38,10 @@ spec:
             secretKeyRef:
               name: mysql-secrets
               key: MYSQL_USER
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         resources:
           requests:
             memory: "128Mi"
