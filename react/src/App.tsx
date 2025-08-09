@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
 import { SpinnerCircular } from 'spinners-react';
-import RaxCall from './Components/RaxCall';
 import { axiosClient } from './axiosClient';
-
 
 function App() {
   interface IUser {
@@ -54,9 +52,6 @@ function App() {
       </div>
       <div className='App-border'>
         {loading ? <SpinnerCircular thickness={200} /> : users.map(user => <div key={user.id}>{user.name}</div>)}
-      </div>
-      <div className='App-border'>
-        <RaxCall />
       </div>
     </div>
   );

@@ -118,6 +118,8 @@ app.get(`${apiUrl}/health`, async (req, res) => {
 });
 
 
-const server = app.listen(port, () => console.log(`Node API up at http://localhost:${port}`));
+const server = app.listen(port, '0.0.0.0', () =>
+  console.log(`Node API up at http://localhost:${port}`)
+);
 
 module.exports = { app, server };
