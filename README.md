@@ -80,11 +80,15 @@ it is in route `/api/v1/serverboot` and react componet that waits and shows data
 
 ## Run k8s
 
-in `k8s/` folder:
+in nodejs folder 
 
-`mysql-secrets.yaml` put base64 encoded credentials
+```sh
+docker build -t nodejs-app:latest ./nodejs
+```
 
-Apply all your Kubernetes YAML files in this order:
+in k8s folder
+Set credentials in `mysql-secrets.yaml`
+Apply all your Kubernetes YAML files in order:
 
 ```sh
 kubectl apply -f mysql-secrets.yaml
