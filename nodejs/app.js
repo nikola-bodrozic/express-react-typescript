@@ -1,6 +1,7 @@
+const os = require("os");
 const express = require("express");
 const app = express();
-const mysql = require("mysql2/promise");
+const pool = require("./db");
 const cors = require("cors");
 const { validationResult } = require("express-validator");
 const { validateBody } = require("./validateBody");
@@ -26,30 +27,6 @@ const users = [
   },
 ];
 const apiUrl = "/api/v1";
-
-const pool = mysql.createPool({
-  connectionLimit: 10,
-  host: process.env.MYSQL_HOST,
-  user: process.env.MYSQL_USER,
-  database: process.env.MYSQL_DATABASE,
-  password: process.env.MYSQL_PASSWORD,
-});
-
-pool.on('connection', (connection) => {
-  logger.info(`New connection eeeeestablished with ID: ${connection.threadId}`);
-});
-
-pool.on('acquire', (connection) => {
-  connection.startTime = Date.now();
-  logger.info(`Connection with ID: ${connection.threadId} acquired`);
-});
-
-pool.on('release', (connection) => {
-  const endTime = Date.now();
-  const duration = endTime - connection.startTime;
-  logger.info(`Connection with ID: ${connection.threadId} released`);
-  logger.info(`Query lasted ${duration} ms \n`);
-});
 
 // test connection to database - curl localhost:4000/api/v1/task/1
 app.get(`${apiUrl}/task/:id`, async (req, res) => {
@@ -97,25 +74,29 @@ app.post("/validate", validateBody, (req, res) => {
 });
 
 
-// Health Check Endpoint for Kubernetes probes
+
 app.get(`${apiUrl}/health`, async (req, res) => {
+  const healthReport = {
+    status: "UP",
+    hostname: os.hostname(),
+    memoryUsage: process.memoryUsage(),
+    timestamp: new Date().toISOString(),
+  };
+
   try {
+    // Just check DB connectivity, no stats needed here
     const connection = await pool.getConnection();
-    connection.release(); // release immediately just to test connectivity
+    connection.release();
 
-    const freeConnections = pool.pool._freeConnections.length;
-    const totalConnections = pool.pool._allConnections.length;
-    const usedConnections = totalConnections - freeConnections;
-
-    res.status(200).send(
-      `OK: Service and Database are healthy.\n` +
-      `Connections — Total: ${totalConnections}, Used: ${usedConnections}, Free: ${freeConnections}`
-    );
+    res.status(200).json(healthReport);
   } catch (error) {
-    logger.error(`Health check failed: Database connection error: ${error.message}`);
-    res.status(503).send('ERROR: Database connection failed.');
+    logger.error(`Health check failed: ${error.message}`);
+    healthReport.status = "ERROR";
+    healthReport.error = error.message;
+    res.status(503).json(healthReport);
   }
 });
+
 
 
 const server = app.listen(port, '0.0.0.0', () =>
